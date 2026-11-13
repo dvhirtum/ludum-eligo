@@ -1,0 +1,21 @@
+schema: spec-driven
+
+context: |
+  Tech stack:
+  - Frontend: Angular single-page application
+  - Backend: .NET 11 API written in C# 15
+  - Orchestration: .NET Aspire
+  - Database: PostgreSQL via EF Core
+
+  Conventions:
+  - Use vertical slice architecture: organize the backend by feature, each slice owning its endpoint, handlers, validation and data access
+  - Apply SOLID principles
+  - Use CQRS: separate commands (state changes) from queries (reads)
+  - Use the latest C# 15 language features where they improve clarity
+  - Use TDD: write a failing test before the implementation, then make it pass and refactor
+  - Name backend unit and integration test methods in Snake_Case following the Should_When pattern (e.g. Should_keep_a_single_copy_When_adding_a_game_twice)
+
+  Documentation:
+  - Update the README after applying a change
+  - Update the functional and technical documentation in docs/ after applying a change
+  - Keep the README and documentation succinct and focused on what, not why

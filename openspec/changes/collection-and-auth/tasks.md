@@ -4,20 +4,20 @@ Every backend task below is done test-first: write the named failing tests, make
 
 ## 1. Solution scaffolding
 
-- [ ] 1.1 Create `LudumEligo.AppHost`, `LudumEligo.ServiceDefaults`, and `LudumEligo.Api` (.NET 11, C# 15) plus a solution file under `src/`, with empty `Features/`, `Infrastructure/`, `Domain/`, and `Common/` folders, and verify `dotnet build` succeeds
-- [ ] 1.2 Create `tests/LudumEligo.Api.UnitTests` (xUnit) and `tests/LudumEligo.Api.IntegrationTests` (xUnit, `WebApplicationFactory`, PostgreSQL Testcontainer fixture), each with a `Features/` folder, and verify `dotnet test` runs both projects (with no tests yet)
-- [ ] 1.3 Create the Angular app `src/ludum-eligo-web` (standalone, routing, Angular Material, `core/` and `features/` folders), and verify `npm run build` and `npm test` succeed
-- [ ] 1.4 Wire the AppHost (PostgreSQL resource and database, the API referencing it, and the Angular app as an npm resource referencing the API with a pinned port) and verify `aspire run` shows all resources healthy in the dashboard
-- [ ] 1.5 Add the Angular dev proxy for `/api/**` using the Aspire-injected API URL, and verify a request from the SPA to `/api/health` succeeds through the proxy
-- [ ] 1.6 Write a failing integration test `Should_serve_the_spa_When_requesting_a_client_route`, then configure the API to serve the built SPA from `wwwroot` with an `index.html` fallback until it passes
-- [ ] 1.7 Document prerequisites and `aspire run` in README.md (with links into `docs/`), create `docs/functional/` and `docs/technical/`, and write `docs/technical/architecture.md` with the solution layout; verify the README steps work on a clean clone
+- [x] 1.1 Create `LudumEligo.AppHost`, `LudumEligo.ServiceDefaults`, and `LudumEligo.Api` (.NET 11, C# 15) plus a solution file under `src/`, with empty `Features/`, `Infrastructure/`, `Domain/`, and `Common/` folders, and verify `dotnet build` succeeds
+- [x] 1.2 Create `tests/LudumEligo.Api.UnitTests` (xUnit) and `tests/LudumEligo.Api.IntegrationTests` (xUnit, `WebApplicationFactory`, PostgreSQL Testcontainer fixture), each with a `Features/` folder, and verify `dotnet test` runs both projects (with no tests yet)
+- [x] 1.3 Create the Angular app `src/ludum-eligo-web` (standalone, routing, Angular Material, `core/` and `features/` folders), and verify `npm run build` and `npm test` succeed
+- [x] 1.4 Wire the AppHost (PostgreSQL resource and database, the API referencing it, and the Angular app as an npm resource referencing the API with a pinned port) and verify `aspire run` shows all resources healthy in the dashboard
+- [x] 1.5 Add the Angular dev proxy for `/api/**` using the Aspire-injected API URL, and verify a request from the SPA to `/api/health` succeeds through the proxy
+- [x] 1.6 Write a failing integration test `Should_serve_the_spa_When_requesting_a_client_route`, then configure the API to serve the built SPA from `wwwroot` with an `index.html` fallback until it passes
+- [x] 1.7 Document prerequisites and `aspire run` in README.md (with links into `docs/`), create `docs/functional/` and `docs/technical/`, and write `docs/technical/architecture.md` with the solution layout; verify the README steps work on a clean clone
 
 ## 2. Shared building blocks and persistence
 
-- [ ] 2.1 Write failing unit tests for `Result<T>` (success, typed errors) and the validation endpoint filter (`Should_return_400_with_errors_When_the_validator_fails`), then implement `Common/` (`ICommandHandler<,>`, `IQueryHandler<,>`, `Result<T>`, the validation filter, and assembly-scanning handler registration) until they pass
-- [ ] 2.2 Write a failing integration test `Should_resolve_every_handler_When_the_application_starts`, then wire handler registration in `Program.cs` until it passes
-- [ ] 2.3 Add `AppDbContext` in `Infrastructure/Persistence` with the `User` and `Game` entities (nullable metadata, `text[]` columns) and the initial migration applied at startup in development, and verify with an integration test `Should_store_unknown_weight_as_null_When_saving_a_game_without_weight`
-- [ ] 2.4 Document the slice conventions, CQRS, and handler registration in `docs/technical/architecture.md`. Create `docs/technical/data-model.md` (with `User` and `Game`) and `docs/technical/testing.md` (TDD, the two test projects, Should_When naming, how to run the tests). Verify that `dotnet test` runs as `testing.md` describes
+- [x] 2.1 Write failing unit tests for `Result<T>` (success, typed errors) and the validation endpoint filter (`Should_return_400_with_errors_When_the_validator_fails`), then implement `Common/` (`ICommandHandler<,>`, `IQueryHandler<,>`, `Result<T>`, the validation filter, and assembly-scanning handler registration) until they pass
+- [x] 2.2 Write a failing integration test `Should_resolve_every_handler_When_the_application_starts`, then wire handler registration in `Program.cs` until it passes
+- [x] 2.3 Add `AppDbContext` in `Infrastructure/Persistence` with the `User` and `Game` entities (nullable metadata, `text[]` columns) and the initial migration applied at startup in development, and verify with an integration test `Should_store_unknown_weight_as_null_When_saving_a_game_without_weight`
+- [x] 2.4 Document the slice conventions, CQRS, and handler registration in `docs/technical/architecture.md`. Create `docs/technical/data-model.md` (with `User` and `Game`) and `docs/technical/testing.md` (TDD, the two test projects, Should_When naming, how to run the tests). Verify that `dotnet test` runs as `testing.md` describes
 
 ## 3. Auth feature (`user-auth`)
 

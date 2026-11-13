@@ -14,6 +14,22 @@ Ludum Eligo helps you pick the next board game to play for your game night.
   dotnet dev-certs https --trust
   ```
 
+## Secrets
+
+Set these once per machine, from the repository root. They are stored as user secrets of the AppHost.
+
+### Google sign-in
+
+1. Create an OAuth client as described in [Authentication](docs/technical/authentication.md#google-console-setup).
+2. Store its id and secret:
+
+   ```sh
+   aspire secret set Parameters:google-client-id <client-id>
+   aspire secret set Parameters:google-client-secret <client-secret>
+   ```
+
+If a parameter is missing, the Aspire dashboard asks for it at startup.
+
 ## Run
 
 From the repository root:
@@ -33,7 +49,10 @@ cd src/ludum-eligo-web && npm ci && npm test
 
 ## Documentation
 
+- Functional
+  - [Signing in and out](docs/functional/sign-in.md)
 - Technical
   - [Architecture](docs/technical/architecture.md)
+  - [Authentication](docs/technical/authentication.md)
   - [Data model](docs/technical/data-model.md)
   - [Testing](docs/technical/testing.md)

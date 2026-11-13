@@ -6,4 +6,6 @@ public static class TestData
     private static int _bggId = 1_000_000;
 
     public static int NextBggId() => Interlocked.Increment(ref _bggId);
+
+    public static string NextGoogleSubject() => $"google-{Guid.NewGuid():N}";
 }

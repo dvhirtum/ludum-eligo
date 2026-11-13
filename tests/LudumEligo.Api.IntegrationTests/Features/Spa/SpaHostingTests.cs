@@ -20,7 +20,7 @@ public sealed class SpaHostingTests(ApiFactory factory)
     [Fact]
     public async Task Should_return_404_When_requesting_an_unknown_api_route()
     {
-        var client = factory.CreateClient();
+        var client = factory.CreateClientFor(Guid.NewGuid());
 
         var response = await client.GetAsync("/api/does-not-exist");
 

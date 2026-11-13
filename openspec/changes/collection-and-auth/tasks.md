@@ -21,16 +21,16 @@ Every backend task below is done test-first: write the named failing tests, make
 
 ## 3. Auth feature (`user-auth`)
 
-- [ ] 3.1 Add Aspire parameters for the Google client id and secret (secret via user secrets), and document Google console setup, including the redirect URI `https://localhost:<port>/api/auth/signin-google`, in README.md and `docs/technical/authentication.md`
-- [ ] 3.2 Configure cookie authentication (HttpOnly, Secure, SameSite=Lax, `401` instead of redirect for `/api`), the Google challenge scheme with callback path `/api/auth/signin-google`, forwarded headers in development, and a test authentication handler in the integration test host; verify with `Should_return_401_When_an_anonymous_user_calls_a_protected_endpoint`
-- [ ] 3.3 `SignInWithGoogle` command: write failing integration tests (`Should_create_a_user_When_signing_in_for_the_first_time`, `Should_reuse_the_user_When_signing_in_again`, `Should_update_the_display_name_When_it_changed_at_google`), then implement the command, its handler, and the `OnTicketReceived` hook putting the user id into the principal until they pass
-- [ ] 3.4 Write failing unit tests for `ICurrentUser` (`Should_return_the_user_id_When_the_principal_has_one`), then implement it until they pass
-- [ ] 3.5 `GetCurrentUser` query and `GET /api/auth/me`: write failing integration tests (`Should_return_the_display_name_When_signed_in`, `Should_return_401_When_not_signed_in`), then implement until they pass
-- [ ] 3.6 Login and `SignOut`: write failing integration tests (`Should_reject_the_return_url_When_it_is_not_local`, `Should_end_the_session_When_signing_out`), then implement `GET /api/auth/login` and the `SignOut` command with `POST /api/auth/logout` until they pass
-- [ ] 3.7 Write a failing integration test `Should_reject_the_request_When_a_post_has_no_xsrf_token`, then add antiforgery in Angular XSRF mode, validated on all non-GET `/api` endpoints, until it passes
-- [ ] 3.8 Angular auth: write failing tests for the route guard, the `401` interceptor, and `AuthService`, then build them, the landing page with "Sign in with Google", and sign-out in the toolbar until they pass
-- [ ] 3.9 Verify manually with `aspire run` that Google sign-in, page reload, and sign-out work end to end, and that the session cookie is HttpOnly in browser devtools
-- [ ] 3.10 Complete `docs/technical/authentication.md` (cookie and Google flow, antiforgery, `ICurrentUser`), and write `docs/functional/sign-in.md`; verify that every auth endpoint and the sign-in and sign-out behaviour are described
+- [x] 3.1 Add Aspire parameters for the Google client id and secret (secret via user secrets), and document Google console setup, including the redirect URI `https://localhost:<port>/api/auth/signin-google`, in README.md and `docs/technical/authentication.md`
+- [x] 3.2 Configure cookie authentication (HttpOnly, Secure, SameSite=Lax, `401` instead of redirect for `/api`), the Google challenge scheme with callback path `/api/auth/signin-google`, forwarded headers in development, and a test authentication handler in the integration test host; verify with `Should_return_401_When_an_anonymous_user_calls_a_protected_endpoint`
+- [x] 3.3 `SignInWithGoogle` command: write failing integration tests (`Should_create_a_user_When_signing_in_for_the_first_time`, `Should_reuse_the_user_When_signing_in_again`, `Should_update_the_display_name_When_it_changed_at_google`), then implement the command, its handler, and the `OnTicketReceived` hook putting the user id into the principal until they pass
+- [x] 3.4 Write failing unit tests for `ICurrentUser` (`Should_return_the_user_id_When_the_principal_has_one`), then implement it until they pass
+- [x] 3.5 `GetCurrentUser` query and `GET /api/auth/me`: write failing integration tests (`Should_return_the_display_name_When_signed_in`, `Should_return_401_When_not_signed_in`), then implement until they pass
+- [x] 3.6 Login and `SignOut`: write failing integration tests (`Should_reject_the_return_url_When_it_is_not_local`, `Should_end_the_session_When_signing_out`), then implement `GET /api/auth/login` and the `SignOut` command with `POST /api/auth/logout` until they pass
+- [x] 3.7 Write a failing integration test `Should_reject_the_request_When_a_post_has_no_xsrf_token`, then add antiforgery in Angular XSRF mode, validated on all non-GET `/api` endpoints, until it passes
+- [x] 3.8 Angular auth: write failing tests for the route guard, the `401` interceptor, and `AuthService`, then build them, the landing page with "Sign in with Google", and sign-out in the toolbar until they pass
+- [x] 3.9 Verify manually with `aspire run` that Google sign-in, page reload, and sign-out work end to end, and that the session cookie is HttpOnly in browser devtools
+- [x] 3.10 Complete `docs/technical/authentication.md` (cookie and Google flow, antiforgery, `ICurrentUser`), and write `docs/functional/sign-in.md`; verify that every auth endpoint and the sign-in and sign-out behaviour are described
 
 ## 4. BGG client (`Infrastructure/Bgg`)
 

@@ -5,9 +5,17 @@ var postgres = builder.AddPostgres("postgres")
 
 var database = postgres.AddDatabase("ludumeligo");
 
+// Google OAuth client. Set with `aspire secret set Parameters:google-client-id <value>` (see README).
+var googleClientId = builder.AddParameter("google-client-id")
+    .WithDescription("OAuth client id from the Google Cloud console.");
+var googleClientSecret = builder.AddParameter("google-client-secret", secret: true)
+    .WithDescription("OAuth client secret from the Google Cloud console.");
+
 var api = builder.AddProject<Projects.LudumEligo_Api>("api")
     .WithReference(database)
     .WaitFor(database)
+    .WithEnvironment("Authentication__Google__ClientId", googleClientId)
+    .WithEnvironment("Authentication__Google__ClientSecret", googleClientSecret)
     .WithHttpHealthCheck("/api/health");
 
 // The SPA is served on a pinned port so the Google redirect URI stays stable.

@@ -70,3 +70,9 @@ public static class ErrorHttpExtensions
         statusCode: statusCode,
         extensions: new Dictionary<string, object?> { ["code"] = error.Code });
 }
+
+/// <summary>The value of a command that succeeds without returning anything.</summary>
+public readonly record struct Success
+{
+    public static readonly Success Value = default;
+}

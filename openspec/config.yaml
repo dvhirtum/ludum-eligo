@@ -1,32 +1,16 @@
 schema: spec-driven
 
-# Project context (optional)
-# Add only constraints that should guide OpenSpec artifacts and workflows.
-# Include constraints an agent cannot infer by reading the code.
-# Keep general project documentation and discoverable codebase facts out.
-# Example:
-#   context: |
-#     Designs and tasks must cover Windows, macOS, and Linux
-#     Write all artifacts in Spanish
+context: |
+  Tech stack:
+  - Frontend: Angular single-page application
+  - Backend: .NET 11 API written in C# 15
+  - Orchestration: .NET Aspire
+  - Database: PostgreSQL via EF Core
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always state what is out of scope
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
-
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+  Conventions:
+  - Use vertical slice architecture: organize the backend by feature, each slice owning its endpoint, handlers, validation and data access
+  - Apply SOLID principles
+  - Use CQRS: separate commands (state changes) from queries (reads)
+  - Use the latest C# 15 language features where they improve clarity
+  - Use TDD: write a failing test before the implementation, then make it pass and refactor
+  - Name backend unit and integration test methods in Snake_Case following the Should_When pattern (e.g. Should_keep_a_single_copy_When_adding_a_game_twice)

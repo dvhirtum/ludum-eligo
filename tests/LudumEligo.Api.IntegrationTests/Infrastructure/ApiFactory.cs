@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using LudumEligo.Api.Features.Import;
+using LudumEligo.Api.Infrastructure.Bgg;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Testcontainers.PostgreSql;
 
 namespace LudumEligo.Api.IntegrationTests.Infrastructure;
@@ -27,6 +30,9 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     }
 
     public string ConnectionString => _postgres.GetConnectionString();
+
+    /// <summary>Replaces BGG for every request and handler in the test host.</summary>
+    public FakeBggClient Bgg { get; } = new();
 
     /// <summary>A client holding a real session cookie for <paramref name="userId"/>.</summary>
     public async Task<HttpClient> CreateSignedInClientAsync(Guid userId)
@@ -57,6 +63,14 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         builder.ConfigureTestServices(services =>
         {
             services.AddSingleton<IStartupFilter, TestSignInStartupFilter>();
+            // Tests run imports themselves (ProcessImport) or start their own worker (ImportWorkerTests).
+            foreach (var worker in services.Where(d => d.ImplementationType == typeof(ImportWorker)).ToList())
+            {
+                services.Remove(worker);
+            }
+
+            services.RemoveAll<IBggClient>();
+            services.AddSingleton<IBggClient>(Bgg);
             services.AddAuthentication()
                 .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestAuthHandler.SchemeName, _ => { })
                 .AddPolicyScheme(TestOrCookieScheme, TestOrCookieScheme, options =>

@@ -91,3 +91,20 @@ Handlers return `Result<T>` (`Common/Result.cs`): either a value or an `Error`. 
 ```
 
 There is no mediator library.
+
+## Background import
+
+`ImportWorker` (`Features/Import/ImportWorker.cs`) is a `BackgroundService` in the API process. It assumes a single API instance.
+
+1. On start, it marks every `Running` import as `Failed` ("The import was interrupted. Start a new import.").
+2. Every `Import:PollInterval` (default 3 seconds), it takes the queued imports, oldest first. For each one it creates a DI scope and runs the `ProcessImport` command handler.
+
+`ProcessImport` does all the work:
+
+1. Sets the job to `Running`.
+2. Reads the user's owned base games from BGG (`IBggClient.GetOwnedCollectionAsync`).
+3. Makes sure the games are in the catalog (`IGameCatalog.EnsureGamesAsync`).
+4. Inserts the missing `collection_items` rows with `ON CONFLICT DO NOTHING`, with source `Import`.
+5. Stores the added and already-present counts and sets the job to `Succeeded`. Any failure sets it to `Failed` with a reason.
+
+The integration test host does not run the worker. Tests call `ProcessImport` directly or start their own worker.

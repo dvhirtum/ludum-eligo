@@ -23,6 +23,35 @@ namespace LudumEligo.Api.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("LudumEligo.Api.Domain.CollectionItem", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("BggId")
+                        .HasColumnType("integer")
+                        .HasColumnName("bgg_id");
+
+                    b.Property<DateTimeOffset>("AddedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("added_at");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("source");
+
+                    b.HasKey("UserId", "BggId")
+                        .HasName("pk_collection_items");
+
+                    b.HasIndex("BggId")
+                        .HasDatabaseName("ix_collection_items_bgg_id");
+
+                    b.ToTable("collection_items", (string)null);
+                });
+
             modelBuilder.Entity("LudumEligo.Api.Domain.Game", b =>
                 {
                     b.Property<int>("BggId")
@@ -88,12 +117,76 @@ namespace LudumEligo.Api.Infrastructure.Persistence.Migrations
                     b.ToTable("games", (string)null);
                 });
 
+            modelBuilder.Entity("LudumEligo.Api.Domain.ImportJob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int?>("Added")
+                        .HasColumnType("integer")
+                        .HasColumnName("added");
+
+                    b.Property<int?>("AlreadyPresent")
+                        .HasColumnType("integer")
+                        .HasColumnName("already_present");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Error")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("error");
+
+                    b.Property<DateTimeOffset?>("FinishedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("finished_at");
+
+                    b.Property<DateTimeOffset?>("StartedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("started_at");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_import_jobs");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_import_jobs_active_user")
+                        .HasFilter("status IN ('Queued', 'Running')");
+
+                    b.HasIndex("Status", "CreatedAt")
+                        .HasDatabaseName("ix_import_jobs_status_created_at");
+
+                    b.HasIndex("UserId", "CreatedAt")
+                        .HasDatabaseName("ix_import_jobs_user_id_created_at");
+
+                    b.ToTable("import_jobs", (string)null);
+                });
+
             modelBuilder.Entity("LudumEligo.Api.Domain.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("BggUsername")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("bgg_username");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -125,6 +218,35 @@ namespace LudumEligo.Api.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("ix_users_google_subject");
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("LudumEligo.Api.Domain.CollectionItem", b =>
+                {
+                    b.HasOne("LudumEligo.Api.Domain.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("BggId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_collection_items_games_bgg_id");
+
+                    b.HasOne("LudumEligo.Api.Domain.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_collection_items_users_user_id");
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("LudumEligo.Api.Domain.ImportJob", b =>
+                {
+                    b.HasOne("LudumEligo.Api.Domain.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_import_jobs_users_user_id");
                 });
 #pragma warning restore 612, 618
         }

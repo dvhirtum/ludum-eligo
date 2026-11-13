@@ -16,7 +16,11 @@ Integration tests:
 
 - run against PostgreSQL in a Testcontainer (`Infrastructure/ApiFactory.cs`), started once and shared by every test in the `api` collection;
 - host the API with `WebApplicationFactory`, which applies the migrations at startup;
-- use unique ids from `TestData` so tests sharing the database never collide.
+- use unique ids from `TestData` so tests sharing the database never collide;
+- replace BGG with `FakeBggClient` (`ApiFactory.Bgg`), where each test registers the games, searches and users it needs;
+- do not run the hosted `ImportWorker`.
+
+Unit tests that involve waiting use `InstantTimeProvider`, which fires timers at once and records each wait.
 
 Both .NET test projects mirror the API's folders, for example `Features/Collection/AddGameTests.cs`.
 

@@ -13,5 +13,6 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(u => u.GoogleSubject).IsUnique();
         builder.Property(u => u.DisplayName).HasMaxLength(200);
         builder.Property(u => u.Email).HasMaxLength(320);
+        builder.Property(u => u.BggUsername).HasMaxLength(100);
     }
 }

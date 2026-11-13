@@ -12,3 +12,11 @@ main {
   margin-right: 8px;
   font-size: 0.9rem;
 }
+
+nav {
+  margin-left: 16px;
+}
+
+nav .active {
+  text-decoration: underline;
+}

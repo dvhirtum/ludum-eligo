@@ -28,6 +28,15 @@ Set these once per machine, from the repository root. They are stored as user se
    aspire secret set Parameters:google-client-secret <client-secret>
    ```
 
+### BoardGameGeek
+
+1. Register an application with BGG to get an XML API2 token (see [BGG integration](docs/technical/bgg-integration.md#configuration)).
+2. Store the token:
+
+   ```sh
+   aspire secret set Parameters:bgg-token <token>
+   ```
+
 If a parameter is missing, the Aspire dashboard asks for it at startup.
 
 ## Run
@@ -51,8 +60,11 @@ cd src/ludum-eligo-web && npm ci && npm test
 
 - Functional
   - [Signing in and out](docs/functional/sign-in.md)
+  - [Your collection](docs/functional/collection.md)
+  - [Importing from BGG](docs/functional/bgg-import.md)
 - Technical
   - [Architecture](docs/technical/architecture.md)
   - [Authentication](docs/technical/authentication.md)
+  - [BGG integration](docs/technical/bgg-integration.md)
   - [Data model](docs/technical/data-model.md)
   - [Testing](docs/technical/testing.md)

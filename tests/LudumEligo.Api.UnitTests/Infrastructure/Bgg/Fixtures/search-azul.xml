@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items total="3" termsofuse="https://boardgamegeek.com/xmlapi/termsofuse">
+	<item type="boardgame" id="230802">
+		<name type="primary" value="Azul"/>
+		<yearpublished value="2017" />
+	</item>
+	<item type="boardgame" id="256226">
+		<name type="primary" value="Azul: Stained Glass of Sintra"/>
+		<yearpublished value="2018" />
+	</item>
+	<item type="boardgame" id="230802">
+		<name type="alternate" value="Azul (Alternate Edition)"/>
+		<yearpublished value="2017" />
+	</item>
+	<item type="boardgame" id="999001">
+		<name type="primary" value="Azul Fan Variant"/>
+	</item>
+</items>

@@ -11,5 +11,8 @@ public sealed class User
 
     public required string Email { get; set; }
 
+    /// <summary>The linked BGG username, used to import the BGG collection. Optional.</summary>
+    public string? BggUsername { get; set; }
+
     public DateTimeOffset CreatedAt { get; init; }
 }

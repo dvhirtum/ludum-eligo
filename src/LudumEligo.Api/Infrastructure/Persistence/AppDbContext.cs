@@ -9,6 +9,10 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
 
     public DbSet<Game> Games => Set<Game>();
 
+    public DbSet<CollectionItem> CollectionItems => Set<CollectionItem>();
+
+    public DbSet<ImportJob> ImportJobs => Set<ImportJob>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 }

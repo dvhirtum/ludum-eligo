@@ -11,11 +11,16 @@ var googleClientId = builder.AddParameter("google-client-id")
 var googleClientSecret = builder.AddParameter("google-client-secret", secret: true)
     .WithDescription("OAuth client secret from the Google Cloud console.");
 
+// BGG XML API2 application token. Set with `aspire secret set Parameters:bgg-token <value>` (see README).
+var bggToken = builder.AddParameter("bgg-token", secret: true)
+    .WithDescription("Application token registered at BoardGameGeek for the XML API2.");
+
 var api = builder.AddProject<Projects.LudumEligo_Api>("api")
     .WithReference(database)
     .WaitFor(database)
     .WithEnvironment("Authentication__Google__ClientId", googleClientId)
     .WithEnvironment("Authentication__Google__ClientSecret", googleClientSecret)
+    .WithEnvironment("Bgg__Token", bggToken)
     .WithHttpHealthCheck("/api/health");
 
 // The SPA is served on a pinned port so the Google redirect URI stays stable.

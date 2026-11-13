@@ -32,4 +32,5 @@ Out of scope: history influencing picks, deleting history entries, user-defined 
 - API: new quiz endpoint (stateless), pick-history endpoints.
 - Database: new `PickHistory` table.
 - SPA: new quiz page and history page, and navigation entries for both.
+- Documentation: new `functional/quiz.md`, `functional/history.md`, `technical/selection.md`; README, `architecture.md` and `data-model.md` extended.
 - `game-vs-game-mode` will reuse the `game-filtering` behaviour and write to `pick-history`.

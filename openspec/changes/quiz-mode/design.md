@@ -182,6 +182,22 @@ Offset paging is enough at these volumes.
 
 **Angular:** the `QuizStore` and page tests are also written first.
 
+### 9. Documentation
+
+This change follows the documentation layout from `collection-and-auth`: short, and limited to what things are and do. Each task group updates the files its own work touches.
+
+| File | New or extended | Content |
+|---|---|---|
+| `README.md` | extended | The feature list gains Quiz and History. |
+| `docs/functional/quiz.md` | **new** | The questions, what "no preference" does, results, confirming a pick, back and restart. |
+| `docs/functional/history.md` | **new** | What is recorded, ordering, paging, and that it is display only. |
+| `docs/technical/selection.md` | **new** | `Features/Filtering` (filter rules, `LoadSelectableGames`); `QuizEngine` (scoring, skipping, early stop, seeded tie-break); the `GET /api/quiz/step` contract. |
+| `docs/technical/architecture.md` | extended | The Filtering, Quiz and History features, and the rule that Quiz and Versus depend on Filtering and never on each other. |
+| `docs/technical/data-model.md` | extended | `PickHistory` and its index. |
+
+- **Why one `selection.md`:** all the picking logic is documented in one place. `game-vs-game-mode` adds its knockout section to the same file.
+- **Alternative considered:** separate `filtering.md` and `quiz-engine.md` files. They would split closely related rules across files.
+
 ## Risks / Trade-offs
 
 - [BGG renames the "Cooperative Game" mechanic] → The name is one constant in `QuizClassification`. Matching by BGG mechanic id would need the catalog to store ids, which is a possible follow-up.

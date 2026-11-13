@@ -1,0 +1,17 @@
+<mat-toolbar>
+  <span>Ludum Eligo</span>
+  @if (auth.isSignedIn()) {
+    <nav>
+      <a mat-button routerLink="/collection" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }">Collection</a>
+      <a mat-button routerLink="/settings" routerLinkActive="active">Settings</a>
+    </nav>
+  }
+  <span class="spacer"></span>
+  @if (auth.user(); as user) {
+    <span class="user">{{ user.displayName }}</span>
+    <button mat-button type="button" (click)="signOut()">Sign out</button>
+  }
+</mat-toolbar>
+<main>
+  <router-outlet />
+</main>

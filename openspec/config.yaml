@@ -19,3 +19,8 @@ context: |
   - Update the README after applying a change
   - Update the functional and technical documentation in docs/ after applying a change
   - Keep the README and documentation succinct and focused on what, not why
+
+  Pull requests:
+  - Use Conventional Commits naming for the commit title when merging PRs (e.g. feat: add BGG collection import)
+  - Replace the default merge commit message with a summary of the PR
+  - Delete the local branch after merging PRs

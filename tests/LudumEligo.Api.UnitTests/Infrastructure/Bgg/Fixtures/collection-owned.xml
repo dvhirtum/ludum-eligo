@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<items totalitems="3" termsofuse="https://boardgamegeek.com/xmlapi/termsofuse" pubdate="Fri, 13 Nov 2026 12:00:00 +0000">
+	<item objecttype="thing" objectid="230802" subtype="boardgame" collid="90000001">
+		<name sortindex="1">Azul</name>
+		<status own="1" prevowned="0" fortrade="0" want="0" wanttoplay="0" wanttobuy="0" wishlist="0" preordered="0" lastmodified="2025-03-02 10:11:12" />
+	</item>
+	<item objecttype="thing" objectid="13" subtype="boardgame" collid="90000002">
+		<name sortindex="1">CATAN</name>
+		<status own="1" prevowned="0" fortrade="0" want="0" wanttoplay="0" wanttobuy="0" wishlist="0" preordered="0" lastmodified="2024-01-20 09:00:00" />
+	</item>
+	<item objecttype="thing" objectid="9209" subtype="boardgame" collid="90000003">
+		<name sortindex="1">Ticket to Ride</name>
+		<status own="1" prevowned="0" fortrade="0" want="0" wanttoplay="0" wanttobuy="0" wishlist="0" preordered="0" lastmodified="2023-07-15 18:30:00" />
+	</item>
+</items>

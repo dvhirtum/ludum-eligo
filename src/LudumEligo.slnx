@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../tests/LudumEligo.Api.IntegrationTests/LudumEligo.Api.IntegrationTests.csproj" />
+  <Project Path="../tests/LudumEligo.Api.UnitTests/LudumEligo.Api.UnitTests.csproj" />
+  <Project Path="LudumEligo.Api/LudumEligo.Api.csproj" />
+  <Project Path="LudumEligo.AppHost/LudumEligo.AppHost.csproj" />
+  <Project Path="LudumEligo.ServiceDefaults/LudumEligo.ServiceDefaults.csproj" />
+</Solution>

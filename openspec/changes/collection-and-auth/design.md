@@ -2,7 +2,7 @@
 
 ## Context
 
-The repository is empty apart from a README, so this change establishes the solution structure that later changes (`quiz-mode`, `game-vs-game-mode`) build on. Motivation and scope: see proposal.md. Behaviour: see the four spec files under `specs/`.
+The repository is empty apart from a README, so this change establishes the solution structure and the documentation structure that later changes (`quiz-mode`, `game-vs-game-mode`) build on. Motivation and scope: see proposal.md. Behaviour: see the four spec files under `specs/`.
 
 Fixed constraints:
 - Angular SPA, .NET 11 API, orchestrated by .NET Aspire.
@@ -245,12 +245,39 @@ All `/api` routes except `/api/auth/*` require authentication. Every handler sco
 
 **Angular:** component and service tests (guard, interceptor, pages, import status polling) are also written first.
 
+### 11. Documentation layout
+
+```
+README.md                  what the app is, prerequisites, how to run (aspire run),
+                           required secrets (Google, BGG), links into docs/
+docs/
+  functional/              what users can do, one file per feature area
+    sign-in.md
+    collection.md          viewing, filtering, adding (BGG search), removing
+    bgg-import.md          linking a username, importing, statuses
+  technical/               how the system is built
+    architecture.md        solution layout, vertical slices, CQRS, handler registration
+    authentication.md      cookie + Google flow, antiforgery, ICurrentUser
+    data-model.md          entities, indexes, migrations
+    bgg-integration.md     BggClient, rate limiting, 202 handling, GameCatalog caching
+    testing.md             TDD, the two test projects, Should_When naming, running tests
+```
+
+**Rules for these files:**
+- **Content:** short, and limited to what things are and do. Explanations of why stay in the OpenSpec designs.
+- **Functional docs:** organised by what users see, not by spec capability, and they never copy spec scenarios.
+- **Updates:** each task group updates the files its own work touches, so the documentation matches the code at every point.
+- **Later changes extend this structure.** For example, `quiz-mode` adds `functional/quiz.md` and `functional/history.md` and extends `architecture.md` and `data-model.md`.
+
+- **Why by feature area:** users think in pages and actions ("my collection", "import from BGG"), not in spec capabilities.
+- **Alternative considered:** one functional file per spec capability. It would mostly repeat the specs.
+
 ## Risks / Trade-offs
 
 - [BGG application token approval can take time] → Request the token at the start of implementation. Until it arrives, develop against the recorded fixtures.
 - [BGG XML format or limits change] → All parsing lives in `BggClient` behind fixture-based tests, and the rate limit interval is configurable.
 - [The shared rate limiter makes searches wait while a large import runs] → Accepted for v1. If it becomes noticeable, give interactive search priority through a separate small budget.
-- [The Google redirect URI must be exact, and Aspire assigns dynamic ports] → Pin the Angular dev server port in the AppHost and register `https://localhost:<port>/api/auth/signin-google` in the Google console. Document this in the README.
+- [The Google redirect URI must be exact, and Aspire assigns dynamic ports] → Pin the Angular dev server port in the AppHost and register `https://localhost:<port>/api/auth/signin-google` in the Google console. Document this in the README and `docs/technical/authentication.md`.
 - [The in-process worker does not scale out] → A single instance is a stated non-goal. Moving the worker to a separate project, with row locking (`FOR UPDATE SKIP LOCKED`), is the upgrade path, and `ProcessImport` moves unchanged.
 - [Re-importing re-adds games the user removed locally] → This is intended behaviour per the spec. Revisit with an "ignored" list if users find it annoying.
 - [Shared components such as `GameCatalog` can grow into a hidden service layer] → Keep each shared component to one responsibility, owned by one feature. Extract a new one rather than adding unrelated methods.

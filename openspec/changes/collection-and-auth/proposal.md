@@ -30,4 +30,5 @@ Out of scope: other identity providers, manual games, overriding BGG metadata, t
 - New solution: Aspire AppHost and ServiceDefaults, a .NET 11 API project, an Angular SPA, and a PostgreSQL resource.
 - External dependencies: Google OAuth client (client ID and secret), a registered BGG application token for the BGG XML API2.
 - New database schema: users, games (shared catalog), collection items, and import jobs.
+- New documentation: README and `docs/functional`, `docs/technical`.
 - Later changes (`quiz-mode`, `game-vs-game-mode`) depend on the catalog metadata and collection defined here.

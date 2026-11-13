@@ -56,7 +56,11 @@ public static class SignInWithGoogle
 
         var handler = context.HttpContext.RequestServices.GetRequiredService<Handler>();
         var result = await handler.HandleAsync(new Command(subject, displayName, email), context.HttpContext.RequestAborted);
-        var user = result.Value;
+        var user = result switch
+        {
+            SignedInUser signedIn => signedIn,
+            Error error => throw new InvalidOperationException($"Signing in failed with '{error.Code}'."),
+        };
 
         context.Principal = new ClaimsPrincipal(new ClaimsIdentity(
             [

@@ -71,12 +71,12 @@ public static class ProcessImport
             }
 
             var ensured = await catalog.EnsureGamesAsync(owned, cancellationToken);
-            if (!ensured.IsSuccess)
+            if (ensured is not IReadOnlySet<int> known)
             {
                 return "BGG did not return the details of the games. Try again later.";
             }
 
-            int[] ids = [.. ensured.Value];
+            int[] ids = [.. known];
             var source = nameof(CollectionItemSource.Import);
             var added = ids.Length == 0
                 ? 0

@@ -32,12 +32,12 @@ public static class AddGame
             }
 
             var ensured = await catalog.EnsureGamesAsync([bggId], cancellationToken);
-            if (!ensured.IsSuccess)
+            if (ensured is Error error)
             {
-                return ensured.Error;
+                return error;
             }
 
-            if (!ensured.Value.Contains(bggId))
+            if (ensured is not IReadOnlySet<int> known || !known.Contains(bggId))
             {
                 return Error.NotFound($"BGG has no game with id {bggId}.");
             }

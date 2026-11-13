@@ -11,8 +11,8 @@ public sealed class ResultTests
     {
         Result<int> result = 42;
 
-        Assert.True(result.IsSuccess);
-        Assert.Equal(42, result.Value);
+        Assert.True(result is 42);
+        Assert.False(result is Error);
     }
 
     [Fact]
@@ -20,25 +20,10 @@ public sealed class ResultTests
     {
         Result<int> result = Error.NotFound("Game not found.");
 
-        Assert.False(result.IsSuccess);
-        Assert.Equal(ErrorType.NotFound, result.Error.Type);
-        Assert.Equal("Game not found.", result.Error.Message);
-    }
-
-    [Fact]
-    public void Should_throw_When_reading_the_value_of_a_failure()
-    {
-        Result<int> result = Error.BggUnavailable();
-
-        Assert.Throws<InvalidOperationException>(() => result.Value);
-    }
-
-    [Fact]
-    public void Should_throw_When_reading_the_error_of_a_success()
-    {
-        Result<int> result = 1;
-
-        Assert.Throws<InvalidOperationException>(() => result.Error);
+        var error = Assert.IsType<Error>(result.Value);
+        Assert.Equal(ErrorType.NotFound, error.Type);
+        Assert.Equal("Game not found.", error.Message);
+        Assert.False(result is int);
     }
 
     [Theory]

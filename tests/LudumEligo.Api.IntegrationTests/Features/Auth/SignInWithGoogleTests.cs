@@ -18,7 +18,7 @@ public sealed class SignInWithGoogleTests(ApiFactory factory)
         await using var scope = factory.Services.CreateAsyncScope();
         var handler = scope.ServiceProvider.GetRequiredService<SignInWithGoogle.Handler>();
         var result = await handler.HandleAsync(new SignInWithGoogle.Command(subject, displayName, email), CancellationToken.None);
-        return result.Value;
+        return Assert.IsType<SignInWithGoogle.SignedInUser>(result.Value);
     }
 
     private async Task<List<LudumEligo.Api.Domain.User>> UsersWithSubjectAsync(string subject)

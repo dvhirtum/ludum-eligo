@@ -69,7 +69,7 @@ Both live in `Common/Handlers.cs`. Both use one database.
 
 ## Results and errors
 
-Handlers return `Result<T>` (`Common/Result.cs`): either a value or an `Error`. The endpoint converts it with `ToHttpResult`:
+Handlers return `Result<T>` (`Common/Result.cs`), a C# union of a value and an `Error`. Code reads it with pattern matching (`result is Error error`). The endpoint converts it with `ToHttpResult`:
 
 | `ErrorType` | HTTP status | Body |
 |---|---|---|

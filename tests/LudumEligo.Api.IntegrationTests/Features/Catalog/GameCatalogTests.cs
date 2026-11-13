@@ -14,6 +14,9 @@ public sealed class GameCatalogTests(ApiFactory factory)
         return await scope.ServiceProvider.GetRequiredService<IGameCatalog>().EnsureGamesAsync(ids, CancellationToken.None);
     }
 
+    private static IReadOnlySet<int> Ids(Result<IReadOnlySet<int>> result) =>
+        Assert.IsAssignableFrom<IReadOnlySet<int>>(result.Value);
+
     [Fact]
     public async Task Should_use_the_cached_game_When_it_is_fresh()
     {
@@ -21,7 +24,7 @@ public sealed class GameCatalogTests(ApiFactory factory)
 
         var result = await EnsureAsync(game.BggId);
 
-        Assert.Equal([game.BggId], result.Value);
+        Assert.Equal([game.BggId], Ids(result));
         Assert.Equal(0, factory.Bgg.ThingRequestCount(game.BggId));
     }
 
@@ -33,7 +36,7 @@ public sealed class GameCatalogTests(ApiFactory factory)
 
         var result = await EnsureAsync(bggId);
 
-        Assert.Equal([bggId], result.Value);
+        Assert.Equal([bggId], Ids(result));
         var game = await factory.FindGameAsync(bggId);
         Assert.NotNull(game);
         Assert.Equal("Azul", game.Name);
@@ -71,7 +74,7 @@ public sealed class GameCatalogTests(ApiFactory factory)
 
         var result = await EnsureAsync(game.BggId);
 
-        Assert.Equal([game.BggId], result.Value);
+        Assert.Equal([game.BggId], Ids(result));
         var refreshed = await factory.FindGameAsync(game.BggId);
         Assert.Equal("New name", refreshed!.Name);
         Assert.Equal(1.75m, refreshed.Weight);
@@ -86,7 +89,7 @@ public sealed class GameCatalogTests(ApiFactory factory)
 
         var result = await EnsureAsync(game.BggId);
 
-        Assert.Equal([game.BggId], result.Value);
+        Assert.Equal([game.BggId], Ids(result));
         var kept = await factory.FindGameAsync(game.BggId);
         Assert.Equal("Cached name", kept!.Name);
         Assert.Equal(game.RefreshedAt.ToUnixTimeMilliseconds(), kept.RefreshedAt.ToUnixTimeMilliseconds());
@@ -100,8 +103,7 @@ public sealed class GameCatalogTests(ApiFactory factory)
 
         var result = await EnsureAsync(bggId);
 
-        Assert.False(result.IsSuccess);
-        Assert.Equal(ErrorType.BggUnavailable, result.Error.Type);
+        Assert.Equal(ErrorType.BggUnavailable, Assert.IsType<Error>(result.Value).Type);
         Assert.Null(await factory.FindGameAsync(bggId));
     }
 
@@ -114,7 +116,7 @@ public sealed class GameCatalogTests(ApiFactory factory)
 
         var result = await EnsureAsync(known, unknown);
 
-        Assert.Equal([known], result.Value);
+        Assert.Equal([known], Ids(result));
     }
 
     [Fact]
@@ -128,7 +130,7 @@ public sealed class GameCatalogTests(ApiFactory factory)
 
         var result = await EnsureAsync(fresh.BggId, stale.BggId, missing);
 
-        Assert.Equal(new[] { fresh.BggId, stale.BggId, missing }.Order(), result.Value.Order());
+        Assert.Equal(new[] { fresh.BggId, stale.BggId, missing }.Order(), Ids(result).Order());
         Assert.Equal(0, factory.Bgg.ThingRequestCount(fresh.BggId));
         Assert.Equal(1, factory.Bgg.ThingRequestCount(stale.BggId));
         Assert.Equal(1, factory.Bgg.ThingRequestCount(missing));

@@ -62,14 +62,14 @@ Every backend task below is done test-first: write the named failing tests, make
 - [x] 7.3 `ProcessImport` command: write failing integration tests (`Should_add_missing_games_When_importing`, `Should_leave_existing_games_untouched_When_importing`, `Should_keep_local_only_games_When_importing`, `Should_add_a_removed_game_again_When_it_is_still_owned_on_bgg`, `Should_mark_the_import_failed_When_bgg_does_not_return_the_collection`, `Should_record_added_and_already_present_counts_When_the_import_succeeds`), then implement the handler until they pass
 - [x] 7.4 `ImportWorker`: write failing integration tests (`Should_process_a_queued_import_When_the_worker_runs`, `Should_mark_running_imports_failed_When_the_worker_starts`), then implement the thin `BackgroundService` dispatching `ProcessImport` until they pass
 - [x] 7.5 Angular `/settings` page: write failing component tests (username form, import button, polling every 3 seconds while active, failed state), then build the page until they pass
-- [ ] 7.6 Verify manually with `aspire run` and a real BGG account that an import completes and the collection shows the owned base games
+- [x] 7.6 Verify manually with `aspire run` and a real BGG account that an import completes and the collection shows the owned base games
 - [x] 7.7 Write `docs/functional/bgg-import.md` (linking a username, starting an import, statuses and counts), and add `BggUsername`, `ImportJob`, and the active-import index to `docs/technical/data-model.md`; verify that every profile and import endpoint is described
 
 ## 8. Integration check
 
 - [x] 8.1 Run `dotnet test` (both test projects) and the Angular test suite, and verify all pass
-- [ ] 8.2 Run the full flow with `aspire run`: sign in, search and add a game, link a BGG username, import, filter, remove a game, sign out; verify each step and that the Aspire dashboard shows no errors
-- [ ] 8.3 Review the README and `docs/` against the running app: verify every page and endpoint is covered, nothing describes behaviour that does not exist, and the text stays short and limited to what, not why
+- [x] 8.2 Run the full flow with `aspire run`: sign in, search and add a game, link a BGG username, import, filter, remove a game, sign out; verify each step and that the Aspire dashboard shows no errors
+- [x] 8.3 Review the README and `docs/` against the running app: verify every page and endpoint is covered, nothing describes behaviour that does not exist, and the text stays short and limited to what, not why
 
 ## Workflow follow-up
 

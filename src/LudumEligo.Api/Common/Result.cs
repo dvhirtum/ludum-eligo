@@ -21,36 +21,15 @@ public sealed record Error(ErrorType Type, string Code, string Message)
         new(ErrorType.BggUnavailable, "bgg_unavailable", "BoardGameGeek is unavailable. Try again later.");
 }
 
-/// <summary>Either a value or an <see cref="Common.Error"/>.</summary>
-public readonly struct Result<T>
+/// <summary>Either a value or an <see cref="Common.Error"/>; consume it with pattern matching.</summary>
+public union Result<T>(T, Error)
+    where T : notnull
 {
-    private readonly T? _value;
-    private readonly Error? _error;
-
-    private Result(T value)
+    public IResult ToHttpResult(Func<T, IResult> onSuccess) => this switch
     {
-        _value = value;
-        IsSuccess = true;
-    }
-
-    private Result(Error error) => _error = error;
-
-    public bool IsSuccess { get; }
-
-    public T Value => IsSuccess
-        ? _value!
-        : throw new InvalidOperationException($"The result failed with '{_error!.Code}' and has no value.");
-
-    public Error Error => !IsSuccess
-        ? _error!
-        : throw new InvalidOperationException("The result succeeded and has no error.");
-
-    public static implicit operator Result<T>(T value) => new(value);
-
-    public static implicit operator Result<T>(Error error) => new(error);
-
-    public IResult ToHttpResult(Func<T, IResult> onSuccess) =>
-        IsSuccess ? onSuccess(_value!) : _error!.ToHttpResult();
+        Error error => error.ToHttpResult(),
+        T value => onSuccess(value),
+    };
 }
 
 public static class ErrorHttpExtensions

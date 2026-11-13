@@ -30,7 +30,7 @@ public static class GetCurrentUser
             {
                 var result = await handler.HandleAsync(new Query(), cancellationToken);
                 // A session for a user that no longer exists counts as signed out.
-                return result.IsSuccess ? Results.Ok(result.Value) : Results.Unauthorized();
+                return result is Response response ? Results.Ok(response) : Results.Unauthorized();
             })
             .RequireAuthorization();
         return app;

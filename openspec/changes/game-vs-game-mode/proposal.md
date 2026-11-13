@@ -30,3 +30,4 @@ Out of scope: sampling a subset of large pools (a later "sample 16" option), see
 - Depends on `collection-and-auth` (collection, catalog) and `quiz-mode` (`GameFilter`, pick history accepting mode "game-vs-game").
 - API: new read-only endpoint for playable games.
 - SPA: new game-vs-game page and a navigation entry. No database changes.
+- Documentation: new `functional/versus.md`; README, `technical/selection.md` and `architecture.md` extended.

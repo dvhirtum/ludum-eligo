@@ -143,6 +143,19 @@ No new backend unit tests are needed, because the filtering rules are already co
 - **`VersusStore`:** undo within a round, undo across a round boundary, restart, a single game going straight to the winner, and confirm (posts once, with mode `"game-vs-game"`).
 - **`/versus` page and winner view:** component tests.
 
+### 6. Documentation
+
+This change follows the documentation layout from `collection-and-auth`: short, and limited to what things are and do. Each task group updates the files its own work touches.
+
+| File | New or extended | Content |
+|---|---|---|
+| `README.md` | extended | The feature list gains Game vs game. |
+| `docs/functional/versus.md` | **new** | The filtering questions, matchups, free passes, progress, undo and restart, the winner and confirming it. |
+| `docs/technical/selection.md` | extended | The `GET /api/versus/games` contract, and a knockout section: round building, the free-pass rule, the injected `rng`, undo snapshots. |
+| `docs/technical/architecture.md` | extended | The Versus feature (backend) and the shared `features/filtering` component (frontend). |
+
+`docs/technical/data-model.md` is unchanged, because this change makes no database changes.
+
 ## Risks / Trade-offs
 
 - [Large filtered pools mean many choices (100 games is 99 choices)] → Accepted for v1. The progress display makes the length visible, and a "sample 16" option is the planned follow-up.
